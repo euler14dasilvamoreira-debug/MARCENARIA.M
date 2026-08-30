@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0b0b">
+<meta name="description" content="Catálogo online da Marcenaria Moreira. Portas, janelas, caixilhos e móveis sob medida.">
+<title>Marcenaria Moreira | Catálogo V2</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="#top"><img src="imagens/logo-header.webp" alt="Logo Marcenaria Moreira"><span>Marcenaria <b>Moreira</b></span></a>
+    <button class="mini" onclick="showAdmin()">⚙️ Administrar</button>
+  </div>
+</header>
+
+<main id="top">
+<section class="hero">
+  <div class="wrap">
+    <img class="heroLogo" src="imagens/logo-hero.webp" alt="Marcenaria Moreira">
+    <h1>MARCENARIA <span>MOREIRA</span></h1>
+    <p>Portas, janelas, caixilhos, móveis e trabalhos em madeira sob medida. Escolha seu modelo e peça seu orçamento.</p>
+    <div class="actions">
+      <a class="btn" href="#portas">🚪 Ver portas</a>
+      <a class="btn dark" href="#catalogo">Ver catálogo completo</a>
+    </div>
+  </div>
+</section>
+
+<section id="portas">
+  <div class="wrap">
+    <div class="title">
+      <h2>🚪 Modelos de portas</h2>
+      <p>Deslize para os lados e escolha o modelo que mais combina com seu projeto.</p>
+    </div>
+    <div class="carousel" id="doorCarousel">
+      <button class="arrow prev" onclick="moveSlide(-1)" aria-label="Anterior">‹</button>
+      <div class="track" id="track"></div>
+      <button class="arrow next" onclick="moveSlide(1)" aria-label="Próximo">›</button>
+      <div class="dots" id="dots"></div>
+    </div>
+    <div class="modelBar" id="modelBar"></div>
+  </div>
+</section>
+
+<section id="catalogo">
+  <div class="wrap">
+    <div class="title">
+      <h2>Nosso catálogo</h2>
+      <p>Toque em uma categoria para filtrar os modelos.</p>
+    </div>
+    <div class="filters" id="filters"></div>
+    <div class="grid" id="products"></div>
+  </div>
+</section>
+
+<section class="admin" id="admin">
+  <div class="wrap">
+    <div class="title">
+      <h2>Painel da Marcenaria</h2>
+      <p>Área de edição no celular.</p>
+    </div>
+    <div class="adminBox">
+      <div id="login">
+        <div class="field">
+          <label>🔐 Senha de acesso</label>
+          <div style="display:flex;gap:8px">
+            <input id="pass" type="password" placeholder="Digite sua senha" style="flex:1">
+            <button class="mini" type="button" onclick="togglePass()">👁️ Ver senha</button>
+          </div>
+        </div>
+        <button class="btn" onclick="login()">Entrar no painel</button>
+        <p id="accessMsg" style="color:#888;font-size:13px">Acesso exclusivo do administrador.</p>
+      </div>
+
+      <div id="editor" style="display:none">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
+          <h3 style="margin:0">✏️ Editor do catálogo</h3>
+          <button class="mini" onclick="logout()">Sair</button>
+        </div>
+        <p style="color:#aaa">Acesso concedido. Aqui você controla os produtos exibidos neste aparelho.</p>
+        <div class="field"><label>Foto</label><input id="photo" type="file" accept="image/*" onchange="previewPhoto()"><img id="preview" class="preview" style="display:none"></div>
+        <div class="field"><label>Nome</label><input id="name" placeholder="Ex.: Porta de madeira"></div>
+        <div class="row">
+          <div class="field"><label>Categoria</label><select id="cat"><option>Portas</option><option>Janelas</option><option>Caixilhos e portais</option><option>Mesas e cadeiras</option><option>Móveis</option><option>Artesanato</option></select></div>
+          <div class="field"><label>Preço</label><input id="price" placeholder="Ex.: R$ 550"></div>
+        </div>
+        <div class="field"><label>Descrição</label><textarea id="desc" rows="3" placeholder="Medidas, madeira, acabamento..."></textarea></div>
+        <button class="btn" onclick="addProduct()">Adicionar ao catálogo</button>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px">
+          <button class="mini" type="button" onclick="exportBackup()">⬇️ Fazer backup</button>
+          <button class="mini" type="button" onclick="document.getElementById("importFile").click()">⬆️ Restaurar backup</button>
+          <input id="importFile" type="file" accept="application/json" style="display:none" onchange="importBackup(event)">
+        </div>
+        <p class="adminTip">Para apagar uma peça, toque em <b>🗑️ Excluir</b> ao lado dela. A peça desaparece do catálogo imediatamente.</p><div class="productList" id="adminList"></div>
+        <div style="margin-top:18px;padding:14px;border:1px solid #333;border-radius:12px;background:#0d0d0d">
+          <b>💾 Imagens salvas no catálogo</b>
+          <p style="color:#aaa;font-size:13px;margin:7px 0 0">As fotos escolhidas aqui ficam associadas ao produto e aparecem automaticamente no catálogo deste aparelho.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<div class="imgModal" id="imgModal" onclick="closeImage(event)">
+  <button class="imgClose" onclick="closeImage(event)">×</button>
+  <img id="fullImg" src="" alt="Imagem ampliada" onclick="event.stopPropagation()">
+  <div class="imgHint">Toque fora da imagem ou no × para fechar</div>
+</div>
+
+<footer>
+  © 2026 Marcenaria Moreira •
+  <a target="_blank" href="https://wa.me/5593991849777">WhatsApp (93) 99184-9777</a>
+</footer>
+<script src="dados.js"></script>
+<script src="app.js"></script>
+<noscript>Ative o JavaScript para usar o catálogo.</noscript>
+</body>
+</html>
